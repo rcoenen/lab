@@ -3,7 +3,7 @@
   const $ = id => document.getElementById(id);
   const FLIGHT_START = Date.parse("2026-11-06T23:00:00Z");
   const FLIGHT_END = Date.parse("2026-11-07T08:30:00Z");
-  const MAX_PROJECTION_MIN = 15;
+  const MAX_PROJECTION_MIN = 60;
   const LOCAL_KEY = "ei100-received-positions-v1";
   const css = document.createElement("style");
   css.textContent = ".replaybox{margin:16px 0;background:#102e3d;border:1px solid #386479;border-radius:14px;padding:17px}.replay-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.replay-head b{font-size:17px}.replay-head small{display:block;line-height:1.5}.replay-status{color:#a5e6ca;font-size:12px;font-weight:700}.replay-controls{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}.replay-controls button{background:#22475a;color:#e8f6fa;border:1px solid #487487;border-radius:8px;padding:9px 12px;cursor:pointer}.replay-controls button.active{background:#236b50;border-color:#66dba1}.replay-controls button:disabled{opacity:.4}.replaybox input[type=range]{width:100%;accent-color:#55e4a0;margin:15px 0}.replay-foot{font-size:12px;color:#acc5d0;line-height:1.55}.replay-measure{display:flex;justify-content:space-between;gap:10px}.replay-measure span{color:#b5d9e9;font-size:12px}.replay-legend{font-size:11px;color:#a8c5cf;margin-top:8px}.replay-legend .dot{display:inline-block;background:#f9cb66;height:8px;width:8px;border-radius:50%;margin:0 5px 0 9px}";
@@ -100,9 +100,9 @@
       moveMarker(estimate,"live");
       // Move the main icon as well, but label it as estimated, never live ADS-B.
       if(typeof locMarker!=="undefined"&&locMarker)locMarker.setLatLng([estimate.lat,estimate.lon]);
-      $("status").textContent="ESTIMATED (+"+Math.floor(minutes)+" min)";
+      $("status").textContent=(minutes>20?"LOW-CONFIDENCE ESTIMATE":"ESTIMATED")+" (+"+Math.floor(minutes)+" min)";
       $("replayClock").textContent="Predicted from "+fmt(time(latest.t));
-      $("replayDetails").textContent="Position projected forward "+minutes.toFixed(1)+" minutes from reported groundspeed "+Math.round(latest.ground_speed_kt)+" kt and heading "+Math.round(latest.track_deg)+"°. Actual position last received "+ageText(age)+" ago. Prediction may differ from real route.";
+      $("replayDetails").textContent="Position projected forward "+minutes.toFixed(1)+" minutes from reported groundspeed "+Math.round(latest.ground_speed_kt)+" kt and heading "+Math.round(latest.track_deg)+"°. Actual position last received "+ageText(age)+" ago. This is dead reckoning, not live tracking; after 20 minutes uncertainty is substantial.";
       const remaining=km([estimate.lat,estimate.lon],b),done=km(a,[estimate.lat,estimate.lon]),pct=100*done/(done+remaining);
       $("progressBar").style.width=pct.toFixed(1)+"%";$("percent").textContent=Math.round(pct)+"% est.";
     }else{
@@ -111,8 +111,8 @@
       $("status").textContent=age<60?"ACTUAL ADS-B":"POSITION STALE";
       $("replayClock").textContent="Last observed "+fmt(time(latest.t));
       $("replayDetails").textContent=minutes>MAX_PROJECTION_MIN
-        ?"No more extrapolation: last report is "+ageText(age)+" old. The aircraft may have turned, climbed or changed speed. Map shows last confirmed position, not where the flight is now."
-        :"Showing confirmed aircraft telemetry. Estimated marker appears only while projecting up to 15 minutes.";
+        ?"Projection stopped after 60 minutes: last report is "+ageText(age)+" old. The aircraft may have turned, climbed or changed speed. Map shows last confirmed position, not where the flight is now."
+        :"Showing confirmed aircraft telemetry. Estimated marker appears only while projecting up to 60 minutes.";
     }
   }
   function replayAt(t){

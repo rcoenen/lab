@@ -1,0 +1,5 @@
+{
+  "api_url": null,
+  "refresh_seconds": 15,
+  "description": "Set api_url to the verified HTTPS Vercel /api/aircraft endpoint after deployment. Until then static snapshot fallback is used."
+}

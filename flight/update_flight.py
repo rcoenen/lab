@@ -11,6 +11,7 @@ import urllib.request
 
 HEX = "4cabd3"
 FILE = pathlib.Path("flight/data/flight.json")
+HISTORY = pathlib.Path("flight/data/history.json")
 END = dt.datetime(2026, 11, 7, 7, 0, tzinfo=dt.timezone.utc)
 START = dt.datetime(2026, 11, 6, 23, 0, tzinfo=dt.timezone.utc)
 now = dt.datetime.now(dt.timezone.utc)
@@ -42,6 +43,13 @@ if START <= now <= END:
             output["observed_at"]=stamp(observed)
             output["status"]="live"
             output["source"]="adsb.lol public ADS-B API"
+            history=json.loads(HISTORY.read_text()) if HISTORY.exists() else {"flight":"EI100","hex":HEX,"points":[]}
+            point={"t":output["observed_at"],**output["aircraft"],"source":"adsb.lol public ADS-B API"}
+            if all(p.get("t") != point["t"] for p in history["points"]):
+                history["points"].append(point)
+                history["points"].sort(key=lambda p:p["t"])
+                history["points"]=history["points"][-2500:]
+                HISTORY.write_text(json.dumps(history,indent=2)+"\\n")
             print("Updated",output["aircraft"]["flight"],output["aircraft"]["lat"],output["aircraft"]["lon"])
         else:
             output["status"]="not_detected"

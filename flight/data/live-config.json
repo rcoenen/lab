@@ -1,5 +1,5 @@
 {
-  "api_url": null,
+  "api_url": "https://ei100-telemetry.vercel.app/api/aircraft",
   "refresh_seconds": 15,
-  "description": "Set api_url to the verified HTTPS Vercel /api/aircraft endpoint after deployment. Until then static snapshot fallback is used."
+  "description": "Server-side ADS-B feed. Positions update when the aircraft is observed; stale snapshots remain marked. Playback uses recorded fixes."
 }

@@ -1,0 +1,26 @@
+{
+  "flight": "EI100",
+  "hex": "4cabd3",
+  "points": [
+    {
+      "t": "2026-11-07T00:10:29Z",
+      "lat": 46.833847,
+      "lon": -65.209753,
+      "alt_baro_ft": 30975,
+      "ground_speed_kt": 538.5,
+      "vert_rate_fpm": 0,
+      "flight": "EIN1TC",
+      "source": "ADS-B MCP regional feed"
+    },
+    {
+      "t": "2026-11-07T00:24:00Z",
+      "lat": 48.081665,
+      "lon": -62.901729,
+      "alt_baro_ft": 33000,
+      "ground_speed_kt": 552.3,
+      "vert_rate_fpm": 0,
+      "flight": "EIN1TC",
+      "source": "Earlier confirmed ADS-B snapshot"
+    }
+  ]
+}

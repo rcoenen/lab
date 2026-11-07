@@ -11,8 +11,8 @@
     "vert_rate_fpm": 0,
     "track_deg": 52.13
   },
-  "status": "snapshot",
+  "status": "not_detected",
   "observed_at": "2026-11-07T00:24:00Z",
-  "fetched_at": "2026-11-07T00:24:00Z",
+  "fetched_at": "2026-11-07T01:14:21Z",
   "source": "Confirmed previous ADS-B sample; initial seed, not live"
 }

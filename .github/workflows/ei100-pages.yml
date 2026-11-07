@@ -1,0 +1,37 @@
+name: Publish EI100 flight dashboard
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - 'flight/**'
+      - '.github/workflows/ei100-pages.yml'
+  schedule:
+    - cron: '*/5 * * * *'
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: ei100-pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.repository == 'rcoenen/lab'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update aircraft data if flight is underway
+        run: python3 flight/update_flight.py
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: flight
+      - name: Publish site
+        id: deployment
+        uses: actions/deploy-pages@v4

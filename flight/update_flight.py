@@ -49,7 +49,7 @@ if START <= now <= END:
                 history["points"].append(point)
                 history["points"].sort(key=lambda p:p["t"])
                 history["points"]=history["points"][-2500:]
-                HISTORY.write_text(json.dumps(history,indent=2)+"\\n")
+                HISTORY.write_text(json.dumps(history,indent=2)+"\n")
             print("Updated",output["aircraft"]["flight"],output["aircraft"]["lat"],output["aircraft"]["lon"])
         else:
             output["status"]="not_detected"

@@ -1,0 +1,18 @@
+{
+  "aircraft": {
+    "hex": "4cabd3",
+    "flight": "EIN1TC",
+    "registration": "EI-LRG",
+    "type": "A21N",
+    "lat": 48.081665,
+    "lon": -62.901729,
+    "alt_baro_ft": 33000,
+    "ground_speed_kt": 552.3,
+    "vert_rate_fpm": 0,
+    "track_deg": 52.13
+  },
+  "status": "snapshot",
+  "observed_at": "2026-11-07T00:24:00Z",
+  "fetched_at": "2026-11-07T00:24:00Z",
+  "source": "Confirmed previous ADS-B sample; initial seed, not live"
+}
